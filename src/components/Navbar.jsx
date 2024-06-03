@@ -4,8 +4,8 @@ const Navbar = () => {
     
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div className="container-fluid">
-                <NavLink className="navbar-brand display-4" to="/">Carpintería Artesanal</NavLink>
+            <div className="container-lg">
+                <NavLink className="navbar-brand display-4 ms-2"style={{fontSize: "1.7rem"}} to="/">Carpintería Artesanal</NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>

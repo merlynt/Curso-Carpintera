@@ -26,9 +26,9 @@ const Modulos = () => {
                 <div key={index} className="card" style={{ width: "18rem" }}>
                     <img src={element.img} className="card-img-top" alt="Imagen"/>
                     <div className="card-body">
-                        <h5 className="card-title">Módulo {element.id}</h5>
+                        <h5 className="card-title">Módulo {index + 1}</h5>
                         <h6 className="card-subtitle mb-2 text-muted">{element.titulo}</h6>
-                        <NavLink to={`/Tema/${index}`} className="btn btn-primary">Ir a modulo</NavLink>
+                        <NavLink to={`/Tema/${index}`} className="btn btn-dark">Ir a modulo</NavLink>
                     </div>
                 </div>
             ))}
