@@ -4,12 +4,13 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 
 //componentes
 import Navbar from './components/Navbar';
-import Contact from './components/Contact';
 import Tema from './components/Tema';
 import Modulos from './components/Modulos';
-
 //Styles
 import "bootstrap/dist/css/bootstrap.min.css"
+
+import 'jquery';
+import 'popper.js';
 import './index.css';
 
 
@@ -22,7 +23,6 @@ root.render(
         <div className="container my-3">
             <Routes>
                 <Route path ="/" element={<Modulos/>}/>
-                <Route path ="/contact" element={<Contact />} />
                 <Route path ="/Tema/:moduloId" element={<Tema />} />
             </Routes>
         </div>
