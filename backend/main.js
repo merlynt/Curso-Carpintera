@@ -12,7 +12,8 @@ app.use(bodyParser.json());
 app.use("/curso",bakcursos);
 
 //conectarse a la base de datos
-mongoose.connect(process.env.MONGO_URL || 'mongodb://host.docker.internal:27017/dbcarpinteria')
+const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/dbcarpinteria';
+mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "error de coneccion a MongoDB:"));
