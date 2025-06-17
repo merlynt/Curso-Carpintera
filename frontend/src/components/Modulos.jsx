@@ -22,7 +22,7 @@ const Modulos = () => {
 
     return (
         <div>
-            <img src="/banner2.jpg" class="card-img-top w-60 h-40" alt="Imagen"></img>
+            <img src="/banner2.jpg" className="card-img-top w-60 h-40" alt="Imagen"></img>
             <div className="d-flex justify-content-between mt-4">
                 {lista.map((element, index) => (
                     <div key={index} className="card" style={{ width: "19rem" }}>

@@ -7,7 +7,8 @@ ruta.get("/", async (req, res) => {
         const bakcurso = await Curso.find();
         res.json(bakcurso);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        console.error("Error al obtener cursos:", err);
+        res.status(500).json({ message: err.message })
     }
 });
 

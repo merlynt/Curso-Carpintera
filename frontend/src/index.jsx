@@ -10,7 +10,7 @@ import Modulos from './components/Modulos';
 import "bootstrap/dist/css/bootstrap.min.css"
 
 import 'jquery';
-import 'popper.js';
+import '@popperjs/core';
 import './index.css';
 
 
