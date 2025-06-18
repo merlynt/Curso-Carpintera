@@ -1,6 +1,7 @@
+
 const express = require("express");
 const ruta = express.Router();
-const Curso = require("../modelos/bakcursos");
+const Curso = require("../models/course");
 
 ruta.get("/", async (req, res) => {
     try {
@@ -16,26 +17,7 @@ ruta.post("/", async (req, res) => {
     const curso = new Curso({
         titulo: req.body.titulo,
         img: req.body.img,
-        temas: {
-            tema1: {
-                titulo: req.body.temas.tema1.titulo,
-                descripcion: req.body.temas.tema1.descripcion,
-                video: req.body.temas.tema1.video,
-                miniatura: req.body.temas.tema1.miniatura
-            },
-            tema2: {
-                titulo: req.body.temas.tema2.titulo,
-                descripcion: req.body.temas.tema2.descripcion,
-                video: req.body.temas.tema2.video,
-                miniatura: req.body.temas.tema2.miniatura
-            },
-            tema3: {
-                titulo: req.body.temas.tema3.titulo,
-                descripcion: req.body.temas.tema3.descripcion,
-                video: req.body.temas.tema3.video,
-                miniatura: req.body.temas.tema3.miniatura
-            }
-        }
+        temas: req.body.temas
     });
     try {
         const nuevoCurso = await curso.save();
