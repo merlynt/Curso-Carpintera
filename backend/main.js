@@ -1,18 +1,17 @@
-const express = require ("express");
+const express = require("express");
 const cors = require("cors");
 const dbConnect = require("./db/connect");
-const bodyParser = require ("body-parser");
-const bakcursos = require("./routes/courseRoutes");
+const courseRoutes = require("./routes/courseRoutes");
 
 dbConnect();
+
 const app = express();
 const port = 3001;
 
 app.use(cors());
-app.use(bodyParser.json());
-app.use("/curso",bakcursos);
-
+app.use(express.json()); 
+app.use("/curso", courseRoutes);
 
 app.listen(port, () => {
-    console.log(`http://localhost:${port}`);
+  console.log(`Server running at http://localhost:${port}`);
 });

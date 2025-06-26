@@ -3,17 +3,17 @@ const express = require("express");
 const ruta = express.Router();
 const Curso = require("../models/course");
 
-ruta.get("/", async (req, res) => {
+exports.courseGet = async (req, res) => {
     try {
-        const bakcurso = await Curso.find();
-        res.json(bakcurso);
+        const course = await Curso.find();
+        res.json(course);
     } catch (err) {
         console.error("Error al obtener cursos:", err);
         res.status(500).json({ message: err.message })
     }
-});
+};
 
-ruta.post("/", async (req, res) => {
+exports.courseCreate = async (req, res) => {
     const curso = new Curso({
         titulo: req.body.titulo,
         img: req.body.img,
@@ -25,100 +25,62 @@ ruta.post("/", async (req, res) => {
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
-});
+};
 
-ruta.get("/:id", getCurso, (req, res) => {
-    res.json(res.curso);
-});
-
-async function getCurso(req, res, next) {
-    let curso;
+exports.courseGetById = async (req, res) => {
     try {
-        curso = await Curso.findById(req.params.id);
-        if (curso == null) {
-            return res.status(404).json({ message: "curso no encontrada" });
+        const curso = await Curso.findById(req.params.id);
+        if (!curso) {
+            return res.status(404).json({ message: "Curso no encontrado" });
         }
-    } catch (err) {
-        return res.status(500).json({ message: err.message });
-    }
-    res.curso = curso;
-    next();
-}
-
-ruta.put("/:id", getCurso, async (req, res) => {
-    if (req.body.titulo != null) {
-        res.curso.titulo = req.body.titulo;
-    }
-
-    if (req.body.img != null) {
-        res.curso.img = req.body.img;
-    }
-
-    if (req.body.temas) {
-        if (req.body.temas.tema1) {
-            if (req.body.temas.tema1.titulo != null) {
-                res.curso.temas.tema1.titulo = req.body.temas.tema1.titulo;
-            }
-            if (req.body.temas.tema1.descripcion != null) {
-                res.curso.temas.tema1.descripcion = req.body.temas.tema1.descripcion;
-            }
-            if (req.body.temas.tema1.video != null) {
-                res.curso.temas.tema1.video = req.body.temas.tema1.video;
-            }
-            if (req.body.temas.tema1.miniatura != null) {
-                res.curso.temas.tema1.miniatura = req.body.temas.tema1.miniatura;
-            }
-        }
-        if (req.body.temas.tema2) {
-            if (req.body.temas.tema2.titulo != null) {
-                res.curso.temas.tema2.titulo = req.body.temas.tema2.titulo;
-            }
-            if (req.body.temas.tema2.descripcion != null) {
-                res.curso.temas.tema2.descripcion = req.body.temas.tema2.descripcion;
-            }
-            if (req.body.temas.tema2.video != null) {
-                res.curso.temas.tema2.video = req.body.temas.tema2.video;
-            }
-            if (req.body.temas.tema2.miniatura != null) {
-                res.curso.temas.tema2.miniatura = req.body.temas.tema2.miniatura;
-            }
-        }
-        if (req.body.temas.tema3) {
-            if (req.body.temas.tema3.titulo != null) {
-                res.curso.temas.tema3.titulo = req.body.temas.tema3.titulo;
-            }
-            if (req.body.temas.tema3.descripcion != null) {
-                res.curso.temas.tema3.descripcion = req.body.temas.tema3.descripcion;
-            }
-            if (req.body.temas.tema3.video != null) {
-                res.curso.temas.tema3.video = req.body.temas.tema3.video;
-            }
-            if (req.body.temas.tema3.miniatura != null) {
-                res.curso.temas.tema3.miniatura = req.body.temas.tema3.miniatura;
-            }
-        }
-    }
-    try {
-        const cursoActualizado = await res.curso.save();
-        res.json(cursoActualizado);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-});
-
-ruta.delete('/:id', async (req, res) => {
-    try {
-        const cursoEliminado = await Curso.findByIdAndDelete(req.params.id);
-        if (cursoEliminado == null) {
-            return res.status(404).json({ message: 'curso no encontrado' });
-        }
-        res.json({
-            message: 'curso eliminado con éxito',
-        });
+        res.json(curso); 
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-});
+};
+
+exports.courseUpdate = async (req, res) => {
+    try {
+        const curso = await Curso.findById(req.params.id);
+        if (!curso) {
+            return res.status(404).json({ message: "Curso no encontrado" });
+        }
+
+        if (req.body.titulo != null) curso.titulo = req.body.titulo;
+        if (req.body.img != null) curso.img = req.body.img;
+
+        // Actualizar temas si existen
+        if (req.body.temas) {
+            const temas = ["tema1", "tema2", "tema3"];
+            temas.forEach((tema) => {
+                if (req.body.temas[tema]) {
+                    curso.temas[tema] = {
+                        ...curso.temas[tema], 
+                        ...req.body.temas[tema] 
+                    };
+                }
+            });
+        }
+
+        const cursoActualizado = await curso.save();
+        res.json(cursoActualizado);
+
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+};
 
 
-module.exports = ruta;
+exports.courseDelete = async (req, res) => {
+    try {
+        const cursoEliminado = await Curso.findByIdAndDelete(req.params.id);
+        if (!cursoEliminado) {
+            return res.status(404).json({ message: "Curso no encontrado" });
+        }
+        res.json({ message: "Curso eliminado con éxito" });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+
