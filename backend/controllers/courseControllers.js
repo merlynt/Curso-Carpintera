@@ -1,7 +1,6 @@
 
-const express = require("express");
-const ruta = express.Router();
 const Curso = require("../models/course");
+const { validateCourse, validateCourseUpdate } = require("../validations/courseValidation");
 
 exports.courseGet = async (req, res) => {
     try {
@@ -14,6 +13,11 @@ exports.courseGet = async (req, res) => {
 };
 
 exports.courseCreate = async (req, res) => {
+    const errors = validateCourse(req.body);
+    if (errors.length > 0) {
+        return res.status(400).json({ errors });
+    }
+    
     const curso = new Curso({
         titulo: req.body.titulo,
         img: req.body.img,
@@ -40,6 +44,10 @@ exports.courseGetById = async (req, res) => {
 };
 
 exports.courseUpdate = async (req, res) => {
+    const errors = validateCourseUpdate(req.body);
+    if (errors.length > 0) {
+        return res.status(400).json({ errors });
+    }
     try {
         const curso = await Curso.findById(req.params.id);
         if (!curso) {
