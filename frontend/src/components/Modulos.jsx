@@ -21,7 +21,7 @@ const Modulos = () => {
     }, []);
 
     return (
-        <div>
+        <div className='container-fluid'>
             <img src="/banner2.jpg" className="card-img-top w-60 h-40" alt="Imagen"></img>
             <div className="d-flex justify-content-between mt-4">
                 {lista.map((element, index) => (
